@@ -1,13 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
-import Playlist from './playlist';
-import Tracklist from './tracklist';
 import SearchBar from './searchbar';
+import Tracklist from './tracklist';
 
 
 function App() {
-
-  const [searchEntry, setSearchEntry] = useState('');
 
   
   return (
@@ -18,11 +15,9 @@ function App() {
         <h1>Ja<span>mmm</span>ing</h1>
       </header>
       
-      <SearchBar setSearchEntry={setSearchEntry}/>
-      <h1>{searchEntry}</h1>
+      <SearchBar />
       
       <div className='Results'>
-        <Tracklist searchEntry={searchEntry}/>
       </div>
 
     </div>

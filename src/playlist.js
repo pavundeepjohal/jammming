@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react"
-import dummyTracks from "./dummyTracks";
 
 function Playlist({ playlistToSpotify, removeTrackFromPlaylist }) {
     const [playlistName, setPlaylistName] = useState('')
@@ -32,8 +31,8 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist }) {
                 return (
                     <div>
                         <div >
-                            <h2>{track.song}</h2>
-                            <h3>{track.artist} | {track.album}</h3>
+                            <h2>{track.name}</h2>
+                            <h3>{track.album.name} | {track.artists[0].name}</h3>
                         </div>
                         <button
                         type='button'

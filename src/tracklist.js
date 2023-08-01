@@ -4,16 +4,8 @@ import Playlist from "./playlist";
 
 
 
-function Tracklist({searchEntry}) {
+function Tracklist({ listOfTracks }) {
     const [playlist, setPlaylist] = useState([]);
-
-
-    const filterByTrack = dummyTracks
-    .filter(track => {
-        return searchEntry.toLowerCase() === '' 
-        ? '' 
-        : track.song.toLowerCase().includes(searchEntry) || track.artist.toLowerCase().includes(searchEntry) || track.album.toLowerCase().includes(searchEntry)
-    })
 
     const handleAddingSongsToPlaylistButton = (e) => {
         const value = e.target.value;
@@ -31,13 +23,13 @@ function Tracklist({searchEntry}) {
         <div>
             <h1 className='searchResultsHeader'>Results</h1>
             {/*filters the list of songs based on search*/}
-            <div className='resultsList'>{filterByTrack
-            .map(track => {
+            <div className='resultsList'>
+                {listOfTracks.map(track => {
                 return (
                 <div>
                     <div key={track.id}>
-                        <h2>{track.song}</h2>
-                        <h3>{track.artist} | {track.album}</h3>
+                        <h2>{track.name}</h2>
+                        <h3>{track.album.name} | {track.artists[0].name}</h3>
                     </div>
                     {/*adds the selected songs to a new list*/}
                     <button
