@@ -1,16 +1,24 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import Tracklist from "./tracklist"
 
-const CLIENT_ID = "c1bad66b5a59480aa1b44995f38962e7"
-const CLIENT_SECRET = "f56b99e1d3dc45b1818f7340a9c20882"
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
+const REDIRECT_URI = "http://localhost:3000"
+const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+const RESPONSE_TYPE = 'token'
 
 function SearchBar() {
-    const searchEntryRef = useRef(null)
+
     const [searchEntry, setSearchEntry] = useState("");
-    const [accessToken, setAccessToken] = useState("");
+    const [token, setToken] = useState("");
     const [tracks, setTracks] = useState([]);
 
-    useEffect(() => {
+    const logout = () => {
+        setToken("")
+        window.localStorage.removeItem("token")
+    }
+
+    /* Old Method of getting token (did not have a log in screen though
+        useEffect(() => {
         //API access token
         var authParameters = {
             method: 'POST',
@@ -23,6 +31,19 @@ function SearchBar() {
        fetch('https://accounts.spotify.com/api/token', authParameters)
        .then(result => result.json())
        .then(data => setAccessToken(data.access_token)) 
+    }, []) */
+    
+    // getting token from url when logged in
+    useEffect(() => {
+        const hash = window.location.hash
+        let token = window.localStorage.getItem("token")
+        if (!token && hash) {
+            token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+
+            window.location.hash = ""
+            window.localStorage.setItem("token", token)
+        }
+        setToken(token)
     }, [])
 
     // Search
@@ -34,7 +55,7 @@ function SearchBar() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + accessToken
+                'Authorization': 'Bearer ' + token
             }
         }
 
@@ -44,32 +65,37 @@ function SearchBar() {
             .then(data => {
                 setTracks(data.tracks.items)
             })
+
+        //getting user ID's
+        const userID = await fetch('https://api.spotify.com/v1/me/id', searchParameters)
+            .then(response => response.json())
+            .then(data => console.log(data))
     }
 
     return (
         <div className="App">
-                <form onSubmit={submitSearch}>
-                    <input
-                        placeholder="Search For Track, Artist, Album..."
-                        type="input"
-                        ref={searchEntryRef}
-                        onChange={e => setSearchEntry(e.target.value)}
-                    />
-                    <button type="submit">Search</button>
-                </form>
+           <h1>Searching Playaround Thingy draft</h1>
+            {/*including login functionality */}           
+                {!token ?
+                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
+                        to Spotify</a>
+                    : <button onClick={logout}>Logout</button>}
                 
-                {/*<div className="list of album names">
-                    {tracks.map((track) => {
-                    return (
-                        <div>
-                            <h2>{track.name}</h2>
-                            <h3>{track.album.name} | {track.artists[0].name}</h3>
-    
-                        </div>
-                    )
-                })}
-            </div>  */}
-            <Tracklist listOfTracks={tracks}/>
+                {token ? 
+                <div>
+                    <form onSubmit={submitSearch}>
+                        <input
+                            placeholder="Search For Track, Artist, Album..."
+                            type="input"
+                            onChange={e => setSearchEntry(e.target.value)}
+                        />
+                        <button type="submit" >Search</button>
+                    </form>
+               </div> 
+                : 
+                <h2>Please Login</h2>
+                }
+                <Tracklist listOfTracks={tracks}/>  
         </div>
     );
 }

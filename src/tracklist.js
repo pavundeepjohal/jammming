@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import dummyTracks from "./dummyTracks"
 import Playlist from "./playlist";
 
 
