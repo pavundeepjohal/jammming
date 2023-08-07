@@ -4,6 +4,7 @@ import Tracklist from "./tracklist"
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "http://localhost:3000"
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+const SCOPE = 'playlist-modify-public' //this just gives the user permissions to create a playlist
 const RESPONSE_TYPE = 'token'
 
 function SearchBar() {
@@ -33,7 +34,7 @@ function SearchBar() {
        .then(data => setAccessToken(data.access_token)) 
     }, []) */
     
-    // getting token from url when logged in
+    // getting token from url when logged in and eventually move all the spotify API stuff to a spotify file
     useEffect(() => {
         const hash = window.location.hash
         let token = window.localStorage.getItem("token")
@@ -46,7 +47,7 @@ function SearchBar() {
         setToken(token)
     }, [])
 
-    // Search
+    // Search and eventually move all the spotify API stuff to a spotify file
     async function submitSearch(e) {
         e.preventDefault();
    
@@ -67,9 +68,9 @@ function SearchBar() {
             })
 
         //getting user ID's
-        const userID = await fetch('https://api.spotify.com/v1/me/id', searchParameters)
+        const userID = await fetch('https://api.spotify.com/v1/me', searchParameters)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => { return data.id })
     }
 
     return (
@@ -77,7 +78,7 @@ function SearchBar() {
            <h1>Searching Playaround Thingy draft</h1>
             {/*including login functionality */}           
                 {!token ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
+                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
                         to Spotify</a>
                     : <button onClick={logout}>Logout</button>}
                 
@@ -95,7 +96,7 @@ function SearchBar() {
                 : 
                 <h2>Please Login</h2>
                 }
-                <Tracklist listOfTracks={tracks}/>  
+                <Tracklist listOfTracks={tracks} accessToken={token}/>  
         </div>
     );
 }
