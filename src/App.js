@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './searchbar';
-import Tracklist from './tracklist';
+import styles from './App.module.css';
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "http://localhost:3000"
@@ -50,7 +50,7 @@ function App() {
 
 
     <div className="App">
-      <header className="App-header">
+      <header className={styles.header}>
         <h1>Ja<span>mmm</span>ing</h1>
       </header>
       {/* if token not available then ask user to login, if it is available then show logout button*/}
