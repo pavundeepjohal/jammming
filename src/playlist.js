@@ -10,7 +10,7 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToke
     }
 
     {/*creating a new list of tracks which are JSON strings and adding them to the 'new' object which is then compared using the Set operator which can only take unique values (cannot use Set of array of Objects) */}
-     {/*seoncd line just converts list of JSON strings back into an array of objects which can then be read*/}
+     {/*second line just converts list of JSON strings back into an array of objects which can then be read*/}
     const uniquePlaylistToSpotify = [...new Set(playlistToSpotify.map((track) => JSON.stringify(track)))] 
    .map((track) => JSON.parse(track))
 
@@ -23,7 +23,6 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToke
         return output
     }
     let trackURIResult = trackURIs(uniquePlaylistToSpotify)
-    console.log(trackURIResult)
 
     //saving playlist to spotify
     async function savePlaylist(e) {
@@ -37,7 +36,7 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToke
             }
         }
 
-        //getting user ID's
+        //getting user ID's so playlist can be created
         const userID = await fetch('https://api.spotify.com/v1/me', searchParameters)
             .then(response => response.json())
             .then(data => { return data.id })
@@ -74,7 +73,7 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToke
 
         const addTracksToNewPlaylist = await fetch('https://api.spotify.com/v1/playlists/' + playlistID + '/tracks', addingSongsParameters)
         .then(response => response.json())
-        .then(data => console.log(data)) 
+        .then(data => data) 
         
 
     }

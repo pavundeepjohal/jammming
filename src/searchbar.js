@@ -7,45 +7,10 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const SCOPE = 'playlist-modify-public' //this just gives the user permissions to create a playlist
 const RESPONSE_TYPE = 'token'
 
-function SearchBar() {
+function SearchBar({ passedToken }) {
 
     const [searchEntry, setSearchEntry] = useState("");
-    const [token, setToken] = useState("");
     const [tracks, setTracks] = useState([]);
-
-    const logout = () => {
-        setToken("")
-        window.localStorage.removeItem("token")
-    }
-
-    /* Old Method of getting token (did not have a log in screen though
-        useEffect(() => {
-        //API access token
-        var authParameters = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }, 
-            body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
-        }
-        //authParameters is what is the instruction for the POST request, result is the successful returned data from the fetch url and converted into json format, data is doing something with that json data (the action)
-       fetch('https://accounts.spotify.com/api/token', authParameters)
-       .then(result => result.json())
-       .then(data => setAccessToken(data.access_token)) 
-    }, []) */
-    
-    // getting token from url when logged in and eventually move all the spotify API stuff to a spotify file
-    useEffect(() => {
-        const hash = window.location.hash
-        let token = window.localStorage.getItem("token")
-        if (!token && hash) {
-            token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-
-            window.location.hash = ""
-            window.localStorage.setItem("token", token)
-        }
-        setToken(token)
-    }, [])
 
     // Search and eventually move all the spotify API stuff to a spotify file
     async function submitSearch(e) {
@@ -56,7 +21,7 @@ function SearchBar() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + passedToken
             }
         }
 
@@ -66,23 +31,14 @@ function SearchBar() {
             .then(data => {
                 setTracks(data.tracks.items)
             })
-
-        //getting user ID's
-        const userID = await fetch('https://api.spotify.com/v1/me', searchParameters)
-            .then(response => response.json())
-            .then(data => { return data.id })
     }
 
     return (
         <div className="App">
            <h1>Searching Playaround Thingy draft</h1>
             {/*including login functionality */}           
-                {!token ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
                 
-                {token ? 
+                {passedToken ? 
                 <div>
                     <form onSubmit={submitSearch}>
                         <input
@@ -96,7 +52,7 @@ function SearchBar() {
                 : 
                 <h2>Please Login</h2>
                 }
-                <Tracklist listOfTracks={tracks} accessToken={token}/>  
+                <Tracklist listOfTracks={tracks} accessToken={passedToken}/>  
         </div>
     );
 }
