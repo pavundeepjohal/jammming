@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './searchbar';
-import styles from './App.module.css';
+import styles from './App.module.css'
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "http://localhost:3000"
