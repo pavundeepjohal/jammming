@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import Playlist from "./playlist";
-
+import Playlist from "../playlist/playlist";
+import './tracklist.css'
 
 
 function Tracklist({ listOfTracks, accessToken }) {
@@ -17,26 +17,34 @@ function Tracklist({ listOfTracks, accessToken }) {
         setPlaylist(updatedList)
     }
 
+    const clearPlaylist = () => {
+        setPlaylist([])
+    }
+
 
     return (
-        <div>
+        <div className='tracklistAndPlaylist'>
             {accessToken ?
-                <div>
-                    <h1 className='searchResultsHeader'>Results</h1>
+                <div className='body'>
+                    <h2 className='searchResultsHeader'>Search Results</h2>
                     {/*filters the list of songs based on search*/}
                     <div className='resultsList'>
                         {listOfTracks.map(track => {
                         return (
-                        <div>
-                            <div key={track.id}>
-                                <h2>{track.name}</h2>
-                                <h3>{track.album.name} | {track.artists[0].name}</h3>
+                        <div className='trackResultBox'>
+                            <img src={track.album.images[0].url} />
+                            <div key={track.id} className='trackResult'>   
+                                <div>
+                                    <h4>{track.name}</h4>
+                                    <h5>{track.album.name} | {track.artists[0].name}</h5>
+                                </div>
                             </div>
                             {/*adds the selected songs to a new list*/}
                             <button
                                 type='button'
                                 value={JSON.stringify(track)}                               
                                 onClick={handleAddingSongsToPlaylistButton}
+                                className='button'
                             >+</button>
                         </div>
                     
@@ -49,7 +57,7 @@ function Tracklist({ listOfTracks, accessToken }) {
             <h2></h2>
         }
             {/*sends selected songs list to be generated in playlist.js component*/}
-            <Playlist playlistToSpotify={playlist} removeTrackFromPlaylist={removeTrackFromPlaylist} passedAccessToken={accessToken}/>
+            <Playlist playlistToSpotify={playlist} removeTrackFromPlaylist={removeTrackFromPlaylist} passedAccessToken={accessToken} clearPlaylist={clearPlaylist}/>
         </div>
     )
     

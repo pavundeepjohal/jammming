@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react"
-import Tracklist from "./tracklist"
+import Tracklist from "../tracklist/tracklist"
+import './searchbar.css'
 
+/*
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "http://localhost:3000"
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const SCOPE = 'playlist-modify-public' //this just gives the user permissions to create a playlist
 const RESPONSE_TYPE = 'token'
+*/
 
 function SearchBar({ passedToken }) {
 
@@ -33,20 +36,22 @@ function SearchBar({ passedToken }) {
             })
     }
 
+    console.log(tracks)
+
     return (
         <div className="App">
-           <h1>Searching Playaround Thingy draft</h1>
             {/*including login functionality */}           
                 
                 {passedToken ? 
                 <div>
-                    <form onSubmit={submitSearch}>
+                    <form onSubmit={submitSearch} className='searchAndButton'>
                         <input
                             placeholder="Search For Track, Artist, Album..."
                             type="input"
                             onChange={e => setSearchEntry(e.target.value)}
+                            className='searchBar'
                         />
-                        <button type="submit" >Search</button>
+                        <button type="submit" className='searchButton'>Search</button>
                     </form>
                </div> 
                 : 
