@@ -1,10 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
-<<<<<<< HEAD
+
 import SearchBar from './searchbar/searchbar';
-=======
-import SearchBar from './searchbar';
->>>>>>> db75bcc1d00e3ae943671a55b06a1f51dd0080c1
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "https://pavundeepjohal.github.io/jammming/"

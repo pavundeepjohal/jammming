@@ -1,9 +1,5 @@
 import React, { useState } from "react"
-<<<<<<< HEAD:src/tracklist/tracklist.js
 import Playlist from "../playlist/playlist";
-=======
-import Playlist from "./playlist";
->>>>>>> db75bcc1d00e3ae943671a55b06a1f51dd0080c1:src/tracklist.js
 import './tracklist.css'
 
 
