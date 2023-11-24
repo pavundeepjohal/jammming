@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react"
+import './playlist.css'
 
-function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToken }) {
+
+function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToken, clearPlaylist }) {
     const [playlistName, setPlaylistName] = useState('')
     const playlistNameRef = useRef(null);
 
@@ -74,39 +76,42 @@ function Playlist({ playlistToSpotify, removeTrackFromPlaylist, passedAccessToke
         const addTracksToNewPlaylist = await fetch('https://api.spotify.com/v1/playlists/' + playlistID + '/tracks', addingSongsParameters)
         .then(response => response.json())
         .then(data => data) 
-        
 
+        clearPlaylist();
     }
 
     return (
         <div>
             {passedAccessToken ?
-            <div>
-                <form onSubmit={savePlaylist}>
+            <div className='playlistBody'>
+                <form onSubmit={savePlaylist} className='nameAndSaveButton'>
                     <input
                         type="input"
                         placeholder="New Playlist Name"
-                        onChange={e=> setPlaylistName(e.target.value)}
+                        onChange={e => setPlaylistName(e.target.value)}
+                        className='playlistName'
                     />
-                    <button type="submit">Save to Spotify</button>
+                    <button type="submit" className='saveButton'>Save to Spotify</button>
                 </form>
 
                 <div>
                     {uniquePlaylistToSpotify.map((track) => {
                     return (
-                        <div>
-                            <div >
-                                <h2>{track.name}</h2>
-                                <h3>{track.album.name} | {track.artists[0].name} | {track.uri}</h3>
+                        <div className='trackBox'>
+                            <img src={track.album.images[0].url} />
+                            <div className='addedTrack'>
+                                <h4>{track.name}</h4>
+                                <h5>{track.album.name} | {track.artists[0].name}</h5>
                             </div>
                             <button
                                 type='button'
                                 onClick={e => removeTrackFromPlaylist(track.id)}
+                                className='button'
                             >-</button>
                         </div>
                     );
                 })}       
-                </div>
+                </div>               
             </div>
         :
         <h2></h2>}

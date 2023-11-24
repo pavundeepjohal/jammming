@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 import SearchBar from './searchbar';
-import styles from './App.module.css'
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID 
 const REDIRECT_URI = "https://pavundeepjohal.github.io/jammming/"
@@ -48,23 +47,21 @@ function App() {
   
   return (
 
-
+  
     <div className="App">
-      <header className={styles.header}>
+      <header className='header'>
         <h1>Ja<span>mmm</span>ing</h1>
       </header>
-      {/* if token not available then ask user to login, if it is available then show logout button*/}
-      {!token ?
-        <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login to Spotify</a>
-        : <button onClick={logout}>Logout</button>
-      }
+      <body>
+        {/* if token not available then ask user to login, if it is available then show logout button*/}
+        {!token ?
+          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`} className='login'>Login to Spotify</a>
+          : <button onClick={logout} className='logout'>Logout</button>
+        }
                 
       
-      <SearchBar passedToken={token}/>
-      
-      <div className='Results'>
-      </div>
-
+        <SearchBar passedToken={token}/>
+      </body>
     </div>
   );
 }

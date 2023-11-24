@@ -1,32 +1,39 @@
 .App {
   text-align: center;
+  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  min-height: 5vh;
+header {
+  color: #1DB954;
+  background-color: #dbd7d2;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 12px;
+  font-size: 20px
 }
 
-.App-link {
-  color: #61dafb;
+body {
+  background-image: url('../src/images/background-pic.png'); 
+  background-size: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logout,.login {
+  background-color: #5adbff;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.tracklistSection {
+  background-color: grey;
+  height: 100%;
+}
+
+.playlistSection {
+  background-color: grey;
 }

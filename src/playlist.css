@@ -1,0 +1,54 @@
+.playlistBody {
+    background-color: grey;
+    margin-left: 10%;
+    width: 570px;;
+    border-radius: 15px;
+}
+
+.addedTrack {
+    position: relative;
+    margin-left: 20%;
+    width: 70%;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.trackBox {
+    display: flex;
+    background-color: lightgrey;
+    text-align: left;
+    justify-content: flex-left;
+    margin: 5px;
+    border-radius: 10px;
+    height: 100px
+}
+
+.trackBox h4 {
+    font-weight: bold;
+}
+
+.trackBox h5 {
+    margin-top: -15px
+}
+
+.nameAndSaveButton {
+    color: white;
+    padding: 12px;
+}
+
+.saveButton {
+    color: black;
+    background-color: #e1ad01;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    font-weight: 16px;
+}
+
+.playlistName {
+    height: 20px;
+    border-radius: 5px;
+    font-size: 16px
+}
